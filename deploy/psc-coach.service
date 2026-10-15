@@ -1,0 +1,21 @@
+[Unit]
+Description=Pentest Skill Coach (Fastify API + built frontend, single port)
+After=network.target
+
+[Service]
+Type=simple
+# Adjust User + WorkingDirectory to your server layout.
+User=psc
+WorkingDirectory=/opt/psc-coach
+# Serve on all interfaces behind your reverse proxy / firewall as appropriate.
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+Environment=DATA_DIR=/opt/psc-coach/data
+Environment=LOG_LEVEL=info
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

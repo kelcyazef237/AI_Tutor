@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-deploy
+*.db
+*.db-*
+.env
+.venv
+data/
+backups/
+.psc-coach.pid
+psc-coach.log
+*.log

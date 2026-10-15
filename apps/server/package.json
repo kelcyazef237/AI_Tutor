@@ -1,0 +1,31 @@
+{
+  "name": "@psc/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "start": "NODE_ENV=production tsx src/index.ts",
+    "start:api-only": "WEB_DIST=false tsx src/index.ts",
+    "test": "vitest run",
+    "db:reset": "tsx src/db/reset.ts",
+    "seed": "tsx src/db/seedCli.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.3.1",
+    "@fastify/rate-limit": "^11.2.1",
+    "@psc/shared": "*",
+    "better-sqlite3": "^13.0.3",
+    "dotenv": "^18.0.7",
+    "fastify": "^5.12.6",
+    "nanoid": "^6.0.2",
+    "pino-pretty": "^13.2.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "vitest": "^5.0.4"
+  }
+}

@@ -1,0 +1,322 @@
+/* ── Diagram Studio canvas ──────────────────────────────────────
+   Scoped under .dg. Colors come from the app theme tokens, so the
+   canvas follows light/dark automatically. The packet motion is SMIL
+   (animateMotion) — controlled via svg.pauseAnimations(). */
+
+.dg svg.dg-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.dg svg.dg-svg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* zones */
+.dg-zone > rect {
+  fill: var(--accent-soft);
+  fill: color-mix(in oklab, var(--accent-soft) 55%, transparent);
+  stroke: color-mix(in oklab, var(--accent) 30%, transparent);
+  stroke-width: 1.2;
+  stroke-dasharray: 6 5;
+}
+.dg-zone.dg-plain > rect {
+  fill: transparent;
+  stroke: var(--border-strong);
+}
+.dg-zone.dg-warn > rect {
+  fill: var(--warning-soft);
+  fill: color-mix(in oklab, var(--warning-soft) 70%, transparent);
+  stroke: color-mix(in oklab, var(--warning) 35%, transparent);
+}
+.dg-zone-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  fill: var(--accent);
+}
+.dg-zone.dg-plain .dg-zone-label {
+  fill: var(--text-muted);
+}
+.dg-zone.dg-warn .dg-zone-label {
+  fill: var(--warning);
+}
+.dg-zone-sub {
+  font-size: 11.5px;
+  fill: var(--text-muted);
+}
+
+/* nodes */
+.dg-node .dg-card {
+  fill: var(--surface);
+  stroke: var(--border-strong);
+  stroke-width: 1.2;
+  transition: stroke 0.15s ease, stroke-width 0.15s ease;
+}
+.dg-node.dg-brand .dg-card {
+  stroke: var(--accent);
+  stroke-width: 1.6;
+}
+.dg-node.dg-warn .dg-card {
+  stroke: color-mix(in oklab, var(--warning) 55%, var(--border-strong));
+  stroke-width: 1.4;
+}
+.dg-node .dg-icbg {
+  fill: var(--accent-soft);
+}
+.dg-node.dg-warn .dg-icbg {
+  fill: var(--warning-soft);
+}
+.dg-node .dg-ic {
+  color: var(--accent);
+}
+.dg-node.dg-warn .dg-ic {
+  color: var(--warning);
+}
+.dg-node .dg-title {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--text);
+}
+.dg-node .dg-sub {
+  font-size: 11px;
+  fill: var(--text-muted);
+}
+.dg-node .dg-tag {
+  fill: color-mix(in oklab, var(--accent-soft) 70%, transparent);
+  stroke: color-mix(in oklab, var(--accent) 35%, transparent);
+  stroke-width: 0.8;
+}
+.dg-node .dg-tag-text {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  fill: var(--accent);
+}
+.dg-node.dg-warn .dg-tag {
+  fill: var(--warning-soft);
+  stroke: color-mix(in oklab, var(--warning) 40%, transparent);
+}
+.dg-node.dg-warn .dg-tag-text {
+  fill: var(--warning);
+}
+.dg-node {
+  cursor: pointer;
+  outline: none;
+}
+.dg-node.dg-lit .dg-card,
+.dg-node:focus-visible .dg-card {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+/* notes */
+.dg-note {
+  font-size: 11.5px;
+  fill: var(--text-muted);
+}
+.dg-note.dg-mono {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+.dg-note.dg-strong {
+  fill: var(--text);
+  font-weight: 600;
+}
+
+/* wires */
+.dg-wire {
+  fill: none;
+  stroke: var(--text-faint);
+  stroke-width: 1.6;
+}
+.dg-wire-glow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  opacity: 0;
+}
+.dg-edge.dg-untrusted .dg-wire,
+.dg-edge.dg-danger .dg-wire {
+  stroke: var(--warning);
+  stroke-dasharray: 5 4;
+}
+.dg-edge.dg-danger .dg-wire {
+  stroke: var(--danger);
+}
+.dg-edge.dg-optional .dg-wire {
+  stroke-dasharray: 3 5;
+}
+.dg-edge.dg-stream .dg-wire {
+  stroke-dasharray: 10 5;
+}
+.dg-edge.dg-signed .dg-wire {
+  stroke: var(--success);
+}
+.dg-pkt {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.5;
+}
+.dg-edge.dg-untrusted .dg-pkt {
+  fill: var(--warning);
+}
+.dg-edge.dg-danger .dg-pkt {
+  fill: var(--danger);
+}
+.dg-edge.dg-signed .dg-pkt {
+  fill: var(--success);
+}
+.dg-arrhead {
+  fill: var(--text-faint);
+}
+.dg-arrhead.dg-a-warn {
+  fill: var(--warning);
+}
+.dg-arrhead.dg-a-danger {
+  fill: var(--danger);
+}
+.dg-arrhead.dg-a-ok {
+  fill: var(--success);
+}
+.dg-arrhead.dg-a-live {
+  fill: var(--accent);
+}
+.dg-label-bg {
+  fill: var(--surface);
+  stroke: var(--border);
+  stroke-width: 0.8;
+}
+.dg-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  fill: var(--text-muted);
+}
+.dg-label.dg-ok {
+  fill: var(--success);
+}
+.dg-label.dg-warn {
+  fill: var(--warning);
+}
+
+/* stepping: everything past the current step recedes; pending edges carry no traffic */
+.dg [data-step] {
+  transition: opacity 0.45s ease;
+}
+.dg .dg-pending[data-step] {
+  opacity: 0.12;
+}
+.dg .dg-edge.dg-pending .dg-pkt {
+  display: none;
+}
+.dg .dg-edge.dg-on:not(.dg-untrusted):not(.dg-danger):not(.dg-signed) .dg-wire {
+  stroke: var(--accent);
+}
+
+/* hover / tap to trace */
+.dg .dg-edge.dg-lit .dg-wire {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.dg .dg-edge.dg-lit .dg-wire-glow {
+  opacity: 0.18;
+}
+.dg .dg-edge.dg-dim {
+  opacity: 0.18;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dg .dg-pkt {
+    display: none;
+  }
+  .dg [data-step] {
+    transition: none;
+  }
+}
+
+/* ── editing: drag positions, click to select labels ─────────── */
+.dg-editing .dg-draggable {
+  cursor: grab;
+  touch-action: none;
+}
+.dg-editing .dg-draggable:active {
+  cursor: grabbing;
+}
+.dg.dg-dragging .dg-draggable {
+  cursor: grabbing;
+}
+.dg.dg-dragging .dg-pkt {
+  display: none;
+}
+.dg .dg-selected .dg-card,
+.dg .dg-zone.dg-selected > rect {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.dg .dg-edge.dg-selected .dg-wire {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.dg .dg-edge.dg-selected .dg-wire-glow {
+  opacity: 0.18;
+}
+.dg .dg-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 16;
+  pointer-events: none;
+}
+.dg-editing .dg-hit {
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.dg-editing .dg-label-hit {
+  cursor: pointer;
+}
+
+/* ── explain mode: tap a component or link for a plain-language popup ── */
+.dg-explaining .dg-node {
+  cursor: help;
+}
+.dg-explaining .dg-node:hover .dg-card {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+.dg-explaining .dg-hit {
+  pointer-events: stroke;
+  cursor: help;
+}
+.dg-explaining .dg-label-hit {
+  cursor: help;
+}
+
+/* frame resize handles (only on the selected zone, in edit mode) */
+.dg .dg-handle {
+  fill: var(--surface);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.dg .dg-handle-hit {
+  fill: transparent;
+}
+
+/* frame + fullscreen presentation */
+.dg-frame {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.dg-frame:fullscreen {
+  background: var(--bg);
+  padding: 12px;
+}
+.dg-frame:fullscreen .dg-canvas {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
